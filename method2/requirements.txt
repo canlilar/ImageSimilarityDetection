@@ -1,0 +1,9 @@
+scikit-image==0.19.2 
+pandas==1.4.2
+scikit-learn==1.0.2 
+sklearn==0.0 
+opencv-python==4.5.5.64
+h5py==3.6.0
+# keras==2.2.4 # keras comes with tensorflow install as a dependency
+tensorflow==2.7.0  #2.6.3  #2.8.0
+#ipykernel==6.13.0

@@ -1,0 +1,17 @@
+{
+  "model"           : "resnet50",
+  "weights"         : "imagenet",
+  "include_top"     : false,
+
+  "train_path"      : "/Users/canlilareden/Documents/fingerprint-data/Data Image Fingerprint/train",
+  "test_path"       : "/Users/canlilareden/Documents/fingerprint-data/Data Image Fingerprint/test",
+  "features_path"   : "/Users/canlilareden/Documents/fingerprint-data/output/resnet50/features.h5",
+  "labels_path"     : "/Users/canlilareden/Documents/fingerprint-data/output/resnet50/labels.h5",
+  "results"         : "/Users/canlilareden/Documents/fingerprint-data/output/resnet50/results.txt",
+  "classifier_path" : "/Users/canlilareden/Documents/fingerprint-data/output/resnet50/classifier.pickle",
+  "model_path"      : "/Users/canlilareden/Documents/fingerprint-data/output/resnet50/model",
+
+  "test_size"       : 0.30,
+  "seed"            : 9,
+  "num_classes"     : 9
+}
