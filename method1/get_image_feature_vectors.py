@@ -12,7 +12,8 @@ import numpy as np
 import time
 
 # Glob for reading file names in a folder
-import glob
+# import glob
+from pathlib import Path
 import os.path
 #################################################
 
@@ -72,7 +73,8 @@ def get_image_feature_vectors():
  
 
   # Loops through all images in a local folder
-  for filename in glob.glob('/Users/erdemisbilen/Angular/fashionWebScraping/images_scraped/full/test/*.jpg'): #assuming gif
+  # for filename in glob.glob('/Users/erdemisbilen/Angular/fashionWebScraping/images_scraped/full/test/*.jpg'): #assuming gif
+  for filename in Path('/home/jupyter/data/').rglob('*.bmp'):
     i = i + 1
 
     print("-----------------------------------------------------------------------------------------")
@@ -81,6 +83,7 @@ def get_image_feature_vectors():
 
     # Loads and pre-process the image
     img = load_img(filename)
+    family= filename.split("/")[-2] # I think this is right but check.
 
     # Calculate the image feature vector of the img
     features = module(img)   
@@ -91,7 +94,7 @@ def get_image_feature_vectors():
     # Saves the image feature vectors into a file for later use
 
     outfile_name = os.path.basename(filename).split('.')[0] + ".npz"
-    out_path = os.path.join('/Users/erdemisbilen/Angular/fashionWebScraping/images_scraped/feature-vectors/test/', outfile_name)
+    out_path = os.path.join('/home/jupyter/Image Feature Vectors/', outfile_name)
 
     # Saves the 'feature_set' to a text file
     np.savetxt(out_path, feature_set, delimiter=',')
