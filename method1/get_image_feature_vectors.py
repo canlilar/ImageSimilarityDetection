@@ -11,6 +11,9 @@ import numpy as np
 # Time for measuring the process time
 import time
 
+# For opening .bmp images
+from PIL import Image
+
 # Glob for reading file names in a folder
 # import glob
 from pathlib import Path
@@ -25,9 +28,18 @@ import os.path
 # Returns the pre processed image as 224 x 224 x 3 tensor
 #################################################
 def load_img(path):
+    
+  filetype = path.split(".")[1]
+  if filetype == "bmp":
+    img0 = Image.open(path)
+    new_img = img0.resize( (256, 256) )
+    new_path = path.split(".")[0]+".jpeg"
+    new_img.save(new_path, 'jpeg')
 
-  # Reads the image file and returns data type of string
-  img = tf.io.read_file(path)
+    # Reads the image file and returns data type of string
+    img = tf.io.read_file(new_path)
+  else:
+    img = tf.io.read_file(path)
 
   # Decodes the image to W x H x 3 shape tensor with type of uint8
   img = tf.io.decode_jpeg(img, channels=3)
@@ -82,8 +94,11 @@ def get_image_feature_vectors():
     print("Image in process is             :%s" %filename)
 
     # Loads and pre-process the image
-    img = load_img(filename)
-    family= filename.split("/")[-2] # I think this is right but check.
+    # img = load_img(filename)
+    img = load_img(str(filename))
+
+    # Get family number
+    family_num = str(filename).split("/")[-2]
 
     # Calculate the image feature vector of the img
     features = module(img)   
@@ -94,7 +109,7 @@ def get_image_feature_vectors():
     # Saves the image feature vectors into a file for later use
 
     outfile_name = os.path.basename(filename).split('.')[0] + ".npz"
-    out_path = os.path.join('/home/jupyter/Image Feature Vectors/', outfile_name)
+    out_path = os.path.join('/home/jupyter/Image Feature Vectors/', family_num + '_' + outfile_name)
 
     # Saves the 'feature_set' to a text file
     np.savetxt(out_path, feature_set, delimiter=',')

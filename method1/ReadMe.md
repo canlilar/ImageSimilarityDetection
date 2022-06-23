@@ -1,6 +1,14 @@
 
 **Source:** https://towardsdatascience.com/image-similarity-detection-in-action-with-tensorflow-2-0-b8d9a78b2509 
 
+# Step 0)
+First we need to activate the virtual env we created in the main read me and activate it. Then we can install the dependencies. 
+```
+python3 -m venv /Users/canlilareden/Documents/venvs/image-sim-venv1
+source /Users/canlilareden/Documents/venvs/image-sim-venv1/bin/activate
+pip3 install -r method1/requirements.txt
+```
+
 # Step 1) Generate Image Feature Vectors: get_image_feature_vectors.py
 The main purpose of this script is to generate image feature vectors by reading image files located in a local folder. It has two functions: load_img() and get_image_feature_vectors().
 
@@ -18,6 +26,7 @@ The main purpose of this script is to generate image feature vectors by reading 
 - Loops through all images in a local folder and passing them to load_img(path) function
 - Infers the image feature vectors
 - Saves each one of the feature vectors to a separate file for later use
+- Here is the link to find other feature vector models to try out on Tensor hub: https://tfhub.dev/s?module-type=image-feature-vector
 
 # Step 2 How to Use Spotify/Annoy Library to Calculate the Similarity Scores
 - What is Spotify/Annoy Library?
@@ -39,3 +48,21 @@ The main purpose of this script is to calculate image similarity scores using im
 - Saves and stores the information in a JSON file for later use.
 
 **match_id(filename)** is a helper function as I need to match images with the product id’s to enable visual product search in my web application. There is a JSON file that contains all the product id information matched with the product image names. This function retrieves the product id information for a given image file name using that JSON file.
+
+# Take aways
+
+## Take aways from using the mobilenet_v2_140_224 pre-trained model from Tensor Hub
+https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/feature_vector/5
+The approach is highly precise (92%) however it lacks sensitivity (ranges from .48 to .51). This might be a result of the pretrained model we are using. We really need to maximize the sensitivity (recall) for this exercise because we need to focus on maximizing the quantity of reunified families even if sometimes we misfire. I suppose it doesn’t matter too much if we are wrong with a match because they’re going to qualify the match anyway before they actually unite the families right? 
+
+## Take aways from using the Inception V2 pre-trained model from Tensor Hub
+https://tfhub.dev/google/imagenet/inception_v2/feature_vector/5
+The approach got us a slight boost in precision (93.9%) however it STILL lacks sensitivity (ranges from .48 to .51). Did not move the needle at all here.
+
+## Take aways from using the ResNet V2 101 pre-trained model from Tensor Hub
+Source: https://tfhub.dev/google/imagenet/resnet_v2_101/feature_vector/5
+This approach did worst of all. Precision was awful (.18). Recall remained constant at 0.508 no matter what threshold we used. Total failure. 
+
+## Take aways from using the NASNet-A (mobile) pre-trained model from Tensor Hub
+Source: https://tfhub.dev/google/imagenet/nasnet_mobile/feature_vector/5
+This approach did terible as well. Precision was bad (.694). Recall ranged from .495 to .507 depending on the threshold set. 
